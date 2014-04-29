@@ -79,13 +79,15 @@ def main(argv=None):
     img_cmd.set_defaults(func=exec_nametable)
 
     args = parser.parse_args(argv[1:])
-    args.func(args)
+    
+    if not os.path.isfile(args.input):
+        parser.error('The file {} does not exist!'.format(args.input))
 
+    args.func(args)
 
 def exec_py(args):
     pynes.composer.compose_file(args.input, output=args.output,
                                 asm=args.asm, path=args.path)
-
 
 def exec_asm(args):
     pynes.compiler.compile_file(args.input, output=args.output,
